@@ -1,12 +1,12 @@
 {
-  "name": "timeedit-scraper",
+  "name": "timeedit-api",
   "version": "1.0.0",
-  "description": "Retrive schedules from TimeEdit.net in json",
+  "description": "API to receive schedules from timeedit.net as objects",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test"
   },
-  "keywords": [],
+  "keywords": ["timeedit", "timeedit.net", "timeedit-api"],
   "author": "Nataniel Pedersen",
   "license": "ISC",
   "dependencies": {
