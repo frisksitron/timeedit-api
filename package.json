@@ -4,7 +4,7 @@
   "description": "Retrive schedules from TimeEdit.net in json",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha test"
   },
   "keywords": [],
   "author": "Nataniel Pedersen",
@@ -12,5 +12,9 @@
   "dependencies": {
     "cheerio": "^0.20.0",
     "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
   }
 }
