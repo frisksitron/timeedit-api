@@ -4,7 +4,7 @@ Node API to receive schedules from timeedit.net as objects.
 ## Usage
 Initialize
 ```javascript
-const TimeEdit = require('../index.js');
+const TimeEdit = require('timeedit-api');
 
 const timeedit = new TimeEdit(
   'https://no.timeedit.net/web/hib/db1/aistudent/'
