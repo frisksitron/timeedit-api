@@ -15,7 +15,7 @@ Get schedule for a class
 ```javascript
 timeedit.getClassId('14hdata')
   .then((id) => {
-    return Promise.all([id, aio.getSchedule(id)]);
+    return Promise.all([id, timeedit.getSchedule(id)]);
   })
   .then((results) => {
     const reservations = JSON.parse(results[1]);
