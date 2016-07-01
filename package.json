@@ -1,13 +1,13 @@
 {
   "name": "timeedit-scraper",
   "version": "1.0.0",
-  "description": "",
+  "description": "Retrive schedules from TimeEdit.net in json",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nataniel Pedersen",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^0.20.0",
