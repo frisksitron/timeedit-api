@@ -7,7 +7,7 @@ let time = new TimeEdit(
 
 describe('TimeEdit api', () => {
   it('should return schedule id', () => {
-    time.searchSchedule()
+    time.getClassId('14hdata')
       .then((result) => {
         expect(result).to.be.a('number');
       }).catch((err) => {
