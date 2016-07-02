@@ -6,7 +6,11 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test"
   },
-  "keywords": ["timeedit", "timeedit.net", "timeedit-api"],
+  "keywords": [
+    "timeedit",
+    "timeedit.net",
+    "timeedit-api"
+  ],
   "author": "Nataniel Pedersen",
   "license": "ISC",
   "dependencies": {
@@ -15,6 +19,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
     "mocha": "^2.5.3"
   }
 }

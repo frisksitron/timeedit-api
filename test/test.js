@@ -1,33 +1,30 @@
-const expect = require('chai').expect;
-const TimeEdit = require('../timeedit.js');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 
-let time = new TimeEdit(
-  'https://no.timeedit.net/web/hib/db1/aistudent/'
-);
+const TimeEdit = require('../index.js');
 
-describe('TimeEdit api', () => {
-  it('should return schedule id', () => {
-    time.getClassId('14hdata')
-      .then((result) => {
-        expect(result).to.be.a('number');
-      }).catch((err) => {
-        console.log(err);
-      });
+chai.use(chaiAsPromised);
+chai.should();
+
+describe('TimeEdit API', () => {
+
+  let time = new TimeEdit(
+    'https://no.timeedit.net/web/hib/db1/aistudent/'
+  );
+
+  it('should return number class with 4 digits', () => {
+    return time.getClassId('14hdata').should.eventually.equal('5972');
   });
-  it('should return types as object', () => {
-    time.getTypes()
-      .then((result) => {
-        expect(result).to.be.a('object');
-      }).catch((err) => {
-        console.log(err);
-      });
+
+  it('should return array with objects with types', () => {
+    return time.getTypes().should.eventually.be.an('array');
   });
-  it('should return schedule as object', () => {
-    time.getSchedule()
-      .then((result) => {
-        expect(result).to.have.property('reservations');
-      }).catch((err) => {
-        console.log(err);
-      });
+
+  it('should return schedule with reservations', () => {
+    return time.getSchedule('5971').should.eventually.be.an('object');
+  });
+
+  it('should return schedule URI', () => {
+    return time.getScheduleURI().should.eventually.equal('ri1Q7.html');
   });
 });

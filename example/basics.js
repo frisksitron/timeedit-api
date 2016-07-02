@@ -25,7 +25,7 @@ aio.getClassId('14hblu')
     return Promise.all([id, aio.getSchedule(id)]);
   })
   .then((results) => {
-    const reservations = JSON.parse(results[1]);
+    const reservations = results[1];
     const info = reservations.info;
 
     console.log(info.reservationcount);

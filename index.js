@@ -10,9 +10,9 @@ const TimeEdit = class {
 
   getSchedule(classId) {
     return new Promise((resolve, reject) => {
-      request(this.getScheduleURL(classId), (error, response, html) => {
+      request(this.getScheduleURL(classId), (error, response, json) => {
         if (!error && response.statusCode == 200) {
-          return resolve(html);
+          return resolve(JSON.parse(json));
         }
         return reject(error);
       });
@@ -26,7 +26,6 @@ const TimeEdit = class {
           const $ = result;
           const id = $('#objectbasketitemX0').attr('data-idonly');
 
-          console.log(id);
           return resolve(id);
         }).catch((err) => {
           return reject(err);
