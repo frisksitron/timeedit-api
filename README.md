@@ -2,16 +2,7 @@
 Node API to receive course schedules from timeedit.net as objects.
 
 ## Usage
-Initialize
-```javascript
-const TimeEdit = require('timeedit-api');
-
-const timeedit = new TimeEdit(
-  'https://no.timeedit.net/web/hib/db1/aistudent/'
-);
-```
-
-Get schedule for a class
+###Initialize and get course schedule
 ```javascript
 const TimeEdit = require('../index.js');
 
@@ -31,7 +22,7 @@ aio.getCourseId('dat100')
 });
 ```
 
-## Course object
+### Course object
 ```javascript
 [
   { startDate: '24.08.2016',
