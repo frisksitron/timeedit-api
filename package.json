@@ -1,7 +1,7 @@
 {
   "name": "timeedit-api",
-  "version": "1.0.1",
-  "description": "API to receive schedules from timeedit.net as objects",
+  "version": "1.1.0",
+  "description": "Node API to receive course schedules from timeedit.net as objects",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test"

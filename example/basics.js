@@ -1,9 +1,7 @@
-let TimeEdit = require('../index.js');
+const TimeEdit = require('../index.js');
 
 // Avdeling for Ingeniør og Økonomi
-let aio = new TimeEdit(
-  'https://no.timeedit.net/web/hib/db1/alstudent/'
-);
+const aio = new TimeEdit('https://no.timeedit.net/web/hib/db1/alstudent/');
 
 // First get course id from course code,
 // then use course id to get the course schedule
