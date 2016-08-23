@@ -1,6 +1,10 @@
 # timeedit-api
 Node API to receive course schedules from timeedit.net as objects.
 
+## Install
+
+    npm install timeedit-api
+
 ## Usage
 ###Initialize and get course schedule
 ```javascript
