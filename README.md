@@ -1,5 +1,5 @@
 # timeedit-api
-Node API to receive schedules from timeedit.net as objects.
+Node API to receive course schedules from timeedit.net as objects.
 
 ## Usage
 Initialize
@@ -13,51 +13,48 @@ const timeedit = new TimeEdit(
 
 Get schedule for a class
 ```javascript
-timeedit.getClassId('14hdata')
-  .then((id) => {
-    return Promise.all([id, timeedit.getSchedule(id)]);
-  })
-  .then((results) => {
-    const reservations = JSON.parse(results[1]);
+const TimeEdit = require('../index.js');
 
-    for (let reservation of reservations.reservations) {
-      console.log(reservation);
-    }
-  })
-  .catch((error) => {
-    throw error;
-  });
+// Avdeling for Ingeniør og Økonomi
+const aio = new TimeEdit(
+  'https://no.timeedit.net/web/hib/db1/alstudent/'
+);
+
+// First get course id from course code,
+// then use course id to get the course schedule
+aio.getCourseId('dat100')
+.then(courseCode => {
+  return aio.getCourse(courseCode);
+})
+.then(course => {
+  console.log(course);
+});
 ```
 
-## Reservations object
-```json
-{
-  "columnheaders": ["Klasse", "Emne", "Emne", "Undervisningstype", "Rom", "Lærer", "Praksis", "Egen tekst", "Kommentar", "Eksamen", "Eksamenstype"],
-  "info": {
-      "reservationlimit": 200,
-      "reservationcount": 40
+## Course object
+```javascript
+[
+  { startDate: '24.08.2016',
+    endDate: '24.08.2016',
+    startTime: '10:15',
+    endTime: '12:00',
+    room: ['E403', 'E443'],
+    type: 'Lab',
+    lecturers: 
+     ['Høyland Sven-Olai',
+      'Kristensen Lars Michael',
+      'Soleim Harald']
   },
-  "reservations": [{
-      "id": "357110",
-      "startdate": "18.08.2016",
-      "starttime": "08:15",
-      "enddate": "18.08.2016",
-      "endtime": "10:00",
-      "columns": ["14HDATA, 14HINF", "INF122", "Programmeringsparadigmer", "Øving"]
-  }, {
-      "id": "357126",
-      "startdate": "18.08.2016",
-      "starttime": "10:15",
-      "enddate": "18.08.2016",
-      "endtime": "12:00",
-      "columns": ["14HDATA, 14HINF", "INF122", "Programmeringsparadigmer", "Forelesning"]
-  }, {
-      "id": "357049",
-      "startdate": "18.08.2016",
-      "starttime": "12:15",
-      "enddate": "18.08.2016",
-      "endtime": "14:00",
-      "columns": ["14HDATA, 14HINF", "DAT157", "Nevrale nett og avanserte algoritmer", "Forelesning", "F203", "Høyland Sven-Olai, Kristensen Terje"]
-  }]
-}
+  { startDate: '25.08.2016',
+    endDate: '25.08.2016',
+    startTime: '08:15',
+    endTime: '10:00',
+    room: ['E403', 'E443'],
+    type: 'Lab',
+    lecturers: 
+     ['Høyland Sven-Olai',
+      'Kristensen Lars Michael',
+      'Soleim Harald']
+  }
+]
 ```
