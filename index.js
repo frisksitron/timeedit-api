@@ -49,9 +49,9 @@ const TimeEdit = class {
    * @param {String} courseCode - Name of course. Ex. DAT100
    * @return {Number} - Lecture ID as number
    */
-  getCourseId(courseCode) {
+  getCourseId(courseCode, searchId) {
     return new Promise((resolve, reject) => {
-      this.loadHtml(this.getSearchURL(courseCode, 5))
+      this.loadHtml(this.getSearchURL(courseCode, searchId))
       .then(result => {
         const $ = result;
         const id = $('#objectbasketitemX0').attr('data-idonly');
