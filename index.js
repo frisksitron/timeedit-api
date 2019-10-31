@@ -47,84 +47,85 @@ const TimeEdit = class {
   /**
    * Get lecture ID from course code
    * @param {String} courseCode - Name of course. Ex. DAT100
+   * @param {String} searchId - A comma separated list of filtering type ids
    * @return {Number} - Lecture ID as number
    */
   getCourseId(courseCode, searchId) {
     return new Promise((resolve, reject) => {
-      this.loadHtml(this.getSearchURL(courseCode, searchId))
+      this.getSearch(courseCode, searchId)
       .then(result => {
-        const $ = result;
-        const id = $('#objectbasketitemX0').attr('data-idonly');
-
-        return resolve(id);
+        return resolve(result[0].value);
       }).catch(err => {
         return reject(err);
+      })
+    });
+  }
+
+  /**
+   * Get lecture ID from course code
+   * @param {String} searchQuery - Name of course. Ex. DAT100
+   * @param {String} searchId - A comma separated list of filtering type ids
+   * @return {Array<{name: string, id: number}>} - Lecture ID as number
+   */
+  getSearch(searchQuery, searchId) {
+    return new Promise((resolve, reject) => {
+      const searchURL = this.getSearchURL(searchQuery, searchId);
+
+      request(searchURL, (error, response, json) => {
+        if (!error && response.statusCode === 200) {
+          const rawSearch = JSON.parse(json);
+
+          const search = rawSearch.records.map(searchItem => {
+            return {
+              name: searchItem.values,
+              value: searchItem.id
+            };
+          });
+
+          return resolve(search);
+        }
+
+        return reject(error);
       });
     });
   }
 
   /**
    * Get all avalible schedule types
-   * @return {Array<Object>} - Ex. [{ name: "emne", value: 5}]
+   * @return {Array<{name: string, value: number}>} - Ex. [{ name: "emne", value: 5}]
    */
   getTypes() {
     return new Promise((resolve, reject) => {
-      this.getSearchPageURI()
-      .then(uri => {
-        return this.loadHtml(this.baseURL + uri);
-      })
-      .then(result => {
-        const $ = result;
+      const typesURL = this.getTypesUrl();
 
-        let types = $('#fancytypeselector option').map((i, type) => {
-          return {
-            name: $(type).text(),
-            value: $(type).val()
-          };
-        }).get();
-
-        return resolve(types);
-      }).catch(err => {
-        return reject(err);
-      });
-    });
-  }
-
-  /**
-   * Get URI for search page, later used to get avalible schedule types
-   * @return {String} - Ex. 'ri1Q7.html'
-   */
-  getSearchPageURI() {
-    return new Promise((resolve, reject) => {
-      this.loadHtml(this.baseURL)
-      .then(result => {
-        const $ = result;
-        // #contents > div.linklist > div > div:nth-child(1) > a:nth-child(1)
-        let uri = $('.linklist .leftlistcolumn > a:first-child').attr('href');
-        uri = uri.match(/([^/]*).html/);
-
-        return resolve(uri[0]);
-      })
-      .catch(err => {
-        return reject(err);
-      });
-    });
-  }
-
-  /**
-   * Load html and return cheerio function
-   * @param {String} url - URL address
-   * @return {Function} - Cheerio function to manipulate loaded html
-   */
-  loadHtml(url) {
-    return new Promise((resolve, reject) => {
-      request(url, (error, response, html) => {
+      request(typesURL, (error, response, json) => {
         if (!error && response.statusCode === 200) {
-          return resolve(cheerio.load(html));
+          const rawTypes = JSON.parse(json);
+
+          const types = rawTypes.records.map(type => {
+            return {
+              name: type.name,
+              value: type.id
+            };
+          });
+
+          return resolve(types);
         }
+
         return reject(error);
       });
     });
+  }
+
+  /**
+   * Construct url to get the type definitions as json
+   * @return {String} - URL to json of the type definitions
+   */
+  getTypesUrl() {
+    return (
+      this.baseUrl +
+      'types.json'
+    );
   }
 
   /**
@@ -135,22 +136,21 @@ const TimeEdit = class {
   getCourseUrl(courseId) {
     return (
       this.baseUrl +
-      'ri.json?h=f&sid=3&p=0.m%2C12.n&objects=' +
-      courseId +
-      '&ox=0&types=0&fe=0&h2=f'
+      'ri.json?sid=3&objects=' +
+      courseId
     );
   }
 
   /**
-   * Construct search url
+   * Construct url to get a search query as json
    * @param {String} searchText - Search string containing course code
-   * @param {String} type - e
-   * @return {String} - e
+   * @param {String} type - A comma separated list of filtering type ids
+   * @return {String} - URL to json of a search query
    */
   getSearchURL(searchText, type) {
     return (
       this.baseUrl +
-      'objects.html?max=1&fr=t&partajax=t&im=f&sid=3&l=nb_NO&search_text=' +
+      'objects.json?sid=3&partajax=t&search_text=' +
       searchText +
       '&types=' +
       type
